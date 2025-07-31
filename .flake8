@@ -1,0 +1,4 @@
+[flake8]
+# максимальная длина строки
+max-line-length = 119
+exclude = venv, .git, migrations
