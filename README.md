@@ -134,9 +134,6 @@ django_project_fw/
   проверьте, что Celery воркер запущен и подключен к Redis
   docker-compose logs celery
 
-- Celery Beat
-  проверьте, что задачи планировщика запускаются
-  docker-compose logs celery-beat
   
 ## Остановка и удаление контейнеров
     docker-compose down

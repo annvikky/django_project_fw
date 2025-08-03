@@ -1,12 +1,11 @@
 from django.db.models import Case, Count, IntegerField, Q, Value, When
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 from .models import Employee, Task
 from .pagination import CustomPagination
@@ -23,40 +22,53 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsAdminUser]
     pagination_class = CustomPagination
 
-    @swagger_auto_schema(operation_summary="Получить список сотрудников",
-                         operation_description="Возвращает список всех сотрудников с поддержкой пагинации.")
+    @swagger_auto_schema(
+        operation_summary="Получить список сотрудников",
+        operation_description="Возвращает список всех сотрудников с поддержкой пагинации.",
+    )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Получить данные сотрудника",
-                         operation_description="Возвращает детали сотрудника по ID.")
+    @swagger_auto_schema(
+        operation_summary="Получить данные сотрудника",
+        operation_description="Возвращает детали сотрудника по ID.",
+    )
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Создать нового сотрудника",
-                         operation_description="Создаёт нового сотрудника с указанными данными.")
+    @swagger_auto_schema(
+        operation_summary="Создать нового сотрудника",
+        operation_description="Создаёт нового сотрудника с указанными данными.",
+    )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Обновить данные сотрудника",
-                         operation_description="Полностью обновляет данные сотрудника по ID.")
+    @swagger_auto_schema(
+        operation_summary="Обновить данные сотрудника",
+        operation_description="Полностью обновляет данные сотрудника по ID.",
+    )
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Частично обновить данные сотрудника",
-                         operation_description="Обновляет частично поля сотрудника по ID.")
+    @swagger_auto_schema(
+        operation_summary="Частично обновить данные сотрудника",
+        operation_description="Обновляет частично поля сотрудника по ID.",
+    )
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Удалить сотрудника",
-                         operation_description="Удаляет сотрудника по ID.")
+    @swagger_auto_schema(
+        operation_summary="Удалить сотрудника",
+        operation_description="Удаляет сотрудника по ID.",
+    )
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
     @method_decorator(cache_page(60 * 15))
     @swagger_auto_schema(
         operation_summary="Список сотрудников с количеством активных задач",
-        operation_description="Возвращает сотрудников с количеством задач в статусах todo и in_progress, отсортированных по загруженности."
+        operation_description="Возвращает сотрудников с количеством задач в статусах todo и in_progress, "
+        "отсортированных по загруженности.",
     )
     @action(detail=False, methods=["get"])
     def busy(self, request):
@@ -90,33 +102,46 @@ class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsAdminOrReadOwn]
     pagination_class = CustomPagination
 
-    @swagger_auto_schema(operation_summary="Получить список задач",
-                         operation_description="Возвращает список задач с учётом прав доступа и пагинацией.")
+    @swagger_auto_schema(
+        operation_summary="Получить список задач",
+        operation_description="Возвращает список задач с учётом прав доступа и пагинацией.",
+    )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Получить данные задачи",
-                         operation_description="Возвращает детали задачи по ID.")
+    @swagger_auto_schema(
+        operation_summary="Получить данные задачи",
+        operation_description="Возвращает детали задачи по ID.",
+    )
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Создать новую задачу",
-                         operation_description="Создаёт новую задачу с автоматическим назначением исполнителя, если возможно.")
+    @swagger_auto_schema(
+        operation_summary="Создать новую задачу",
+        operation_description="Создаёт новую задачу с автоматическим назначением исполнителя, если возможно.",
+    )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Обновить задачу",
-                         operation_description="Полностью обновляет данные задачи по ID. При статусе 'done' перераспределяет задачи в очереди.")
+    @swagger_auto_schema(
+        operation_summary="Обновить задачу",
+        operation_description="Полностью обновляет данные задачи по ID. При статусе 'done' перераспределяет задачи в "
+        "очереди.",
+    )
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Частично обновить задачу",
-                         operation_description="Обновляет частично поля задачи по ID.")
+    @swagger_auto_schema(
+        operation_summary="Частично обновить задачу",
+        operation_description="Обновляет частично поля задачи по ID.",
+    )
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 
-    @swagger_auto_schema(operation_summary="Удалить задачу",
-                         operation_description="Удаляет задачу по ID.")
+    @swagger_auto_schema(
+        operation_summary="Удалить задачу",
+        operation_description="Удаляет задачу по ID.",
+    )
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
 
