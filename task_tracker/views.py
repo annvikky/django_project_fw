@@ -60,7 +60,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     )
     @action(detail=False, methods=["get"])
     def busy(self, request):
-        """Возвращает список сотрудников с количеством активных задач (todo, in_progress), отсортированных по
+        """Возвращает список сотрудников с количеством активных задач (_todo, in_progress), отсортированных по
         загруженности."""
 
         employees = Employee.objects.annotate(
@@ -306,7 +306,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(60 * 15))
     @action(detail=False, methods=["get"])
     def important(self, request):
-        """Задачи в статусе todo, от которых зависят задачи в работе."""
+        """Задачи в статусе _todo, от которых зависят задачи в работе."""
         parent_ids = (
             Task.objects.filter(status="in_progress")
             .exclude(parent_task__isnull=True)
