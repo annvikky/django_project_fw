@@ -7,6 +7,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+python-dotenv = "^1.1.1"
+serializers = "^0.2.4"
+djangorestframework = "^3.16.0"
 
 
 [tool.poetry.group.lint.dependencies]
